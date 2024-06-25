@@ -85,3 +85,8 @@ buildNumber.properties
 ### Node/NPM ###
 node/
 node_modules/
+
+### Dispatcher ###
+mnt/*
+cache/*
+dispatcher-sdk-2.0.219/*

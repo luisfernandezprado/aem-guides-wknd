@@ -94,3 +94,57 @@ With Adobe Stock, you have access to more than 140 million high-quality, royalty
 
 * This project was generated using the [AEM Project Archetype](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/developing/archetype/overview.html).
 * This project relies on [AEM Core Components](https://experienceleague.adobe.com/docs/experience-manager-core-components/using/introduction.html).
+
+## Dispatcher - Docker Environment
+
+Requisitos, arrancar el entorno de docker "wsl2". Y tener construida la imagen del dispatcher
+
+Incluir en las variables de entorno el DOCROOT, donde se va a generar la cache
+
+    ## WKND PROPERTIES
+    - DOCROOT=/mnt/var/www/html
+
+Arranque del entorno de dispatcher.
+
+    docker compose up -d
+
+Parar el entorno
+
+    docker compose down
+
+## Dispatcher Tools - Validacion
+
+Descargar el SDK de la versión de AEM
+* [AEM SDK Download](https://experience.adobe.com/#/downloads/content/software-distribution/en/aemcloud.html?fulltext=AEM*+SDK*&orderby=%40jcr%3Acontent%2Fjcr%3AlastModified&orderby.sort=desc&layout=list&p.offset=0&p.limit=15)
+
+Dentro del ZIP viene copiar otro ZIP con el SDK-Dispatcher-Tools para ejecutar en Windows. NO FUNCIONA
+Lo mejor es coger el script de Linux y copiar en una ruta del ordenador y acceder desde dentro del WSL
+
+    cd /mnt/<ruta en windows>
+    cd /mnt/c/D/01-Proyectos/EITB/Entorno
+
+Ejecutar el script y nos genera la carpeta dispatcher-sdk-2.0.219
+
+    ./aem-sdk-dispatcher-tools-2.0.219-unix.sh
+
+Nos ponemos dentro de la carpeta y ya podemos validar la configuración.
+Validar la configuración por defecto.
+
+    ./bin/validate.sh src
+
+Para validar nuestro proyecto, utilizar la ruta del SRC del dispatcher del proyecto
+
+    ./bin/validate.sh /mnt/c/D/01-Proyectos/EITB/GIT/eitb/dispatcher/src
+
+----
+
+### Ejecución desde WSL
+
+MODO EJECUCION CON CONTENEDOR DIRECTAMENTE DESDE DISPATCHER SDK DE LINUX
+
+    ./aem-sdk-dispatcher-tools-2.0.219-unix.sh
+
+La carpeta generada meterla en el proyecto, dispatcher-sdk-2.0.219
+
+    ./dispatcher-sdk-2.0.219/bin/docker_run_hot_reload.sh ../dispatcher/src host.docker.internal:4503 80
+    DISP_LOG_LEVEL=Debug REWRITE_LOG_LEVEL=Debug ./dispatcher-sdk-2.0.219/bin/docker_run_hot_reload.sh ../dispatcher/src host.docker.internal:4503 80

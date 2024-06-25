@@ -16,6 +16,7 @@
 	# hostname globbing for farm selection (virtual domain addressing)
 	/virtualhosts {
 		$include "../virtualhosts/virtualhosts.any"
+		wknd.docker.local
 	}
 	# the load will be balanced among these render instances
 	/renders {
